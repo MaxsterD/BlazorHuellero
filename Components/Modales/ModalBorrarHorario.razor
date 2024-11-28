@@ -35,7 +35,7 @@
         var myContent = JsonConvert.SerializeObject(Server);
         var content = new StringContent(myContent, Encoding.UTF8, "application/json");
         var baseUrl = Configuration["UrlBackend"];
-        var url = $"{baseUrl}/api/CreacionUsuario/EliminarUsuario";
+        var url = $"{baseUrl}/api/Horarios/EliminarHorario";
         var response = await httpClient.PostAsync(url, content);
         
         //In a real world scenario this bool would probably be a service to delete the item from api/database

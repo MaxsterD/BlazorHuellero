@@ -81,7 +81,6 @@ namespace ConsolaBlazor.Layout
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 Snackbar.Add("Hubo un error al cargar los tickets", Severity.Error, config => { config.HideIcon = true; });
             }
             return null;

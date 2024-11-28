@@ -111,7 +111,10 @@
                                 HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
                                 CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
                 <TemplateColumn Hidden="false"
-                                CellClass="d-flex justify-end align-center">
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell" Style="max-width:150px !important"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;">
                     <CellTemplate>
                         <MudStack Row>
                             <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />

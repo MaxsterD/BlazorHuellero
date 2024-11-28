@@ -119,7 +119,7 @@ namespace ConsolaBlazor.Pages.AsignacionLider
                 return;
             }
 
-            tableData.Add(new TableRowData { Column1 = Lider.Id, Column2 = Lider.Nombre, Column3 = Lider.Identificacion, Column4 = Empleado.Nombre, Column5 = Empleado.Identificacion });
+            //tableData.Add(new TableRowData { Column1 = Lider.Id, Column2 = Lider.Nombre, Column3 = Lider.Identificacion, Column4 = Empleado.Nombre, Column5 = Empleado.Identificacion });
             
             Lider.Nombre = "";
             Lider.Identificacion = "";

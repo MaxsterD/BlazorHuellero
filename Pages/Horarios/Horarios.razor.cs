@@ -21,7 +21,7 @@ namespace ConsolaBlazor.Pages.Horarios
     public partial class Horarios
     {
         private HorariosDTO horario = new HorariosDTO();
-        private List<HorariosDTO> Horarios { get; set; } = new List<HorariosDTO>();
+        private List<HorariosDTO> ListaHorarios { get; set; } = new List<HorariosDTO>();
 
         [Inject] HttpClient httpClient { get; set; }
         [Inject] AuthenticationStateProvider autenticacionProvider { get; set; }
@@ -30,57 +30,10 @@ namespace ConsolaBlazor.Pages.Horarios
         [Inject] IConfiguration Configuration { get; set; }
 
         private string titleBarStyle = $"height:7%;background-color:{AtowerTheme.Default.PaletteLight.Primary}; color:white;";
-        private string headerBarStyle = $"background-color:{AtowerTheme.Default.PaletteLight.Primary}; color:white;";
         private MudTimePicker horaInicio;
         private MudTimePicker horaFin;
         
 
-        private async Task DeleteServerAsync(TableRowData datos)
-        {
-            var parameters = new DialogParameters<ConfirmActionModal> { { x => x.Server, datos } };
-
-            var dialog = await DialogService.ShowAsync<ConfirmActionModal>("Delete Server", parameters);
-            var result = await dialog.Result;
-
-            if (!result.Canceled)
-            {
-                //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-
-                Console.WriteLine(result.Data.ToString());
-                
-                tableData.RemoveAll(item => item.Column1 == (int)result.Data);
-            }
-        }
-
-        private void Prueba()
-        {
-            if (horario == null)
-            {
-                Snackbar.Add("Por favor, introduce los datos del horario.", Severity.Warning, config => { config.HideIcon = true; });
-                return;
-            }else if (string.IsNullOrEmpty(horario.Descripcion))
-            {
-                Snackbar.Add("Por favor, introduce una Descripción.", Severity.Warning, config => { config.HideIcon = true; });
-                return;
-            }
-            else if (string.IsNullOrEmpty(horario.HoraInicio))
-            {
-                Snackbar.Add("Por favor, introduce una Hora Inicio.", Severity.Warning, config => { config.HideIcon = true; });
-                return;
-            }
-            else if (string.IsNullOrEmpty(horario.HoraFin))
-            {
-                Snackbar.Add("Por favor, introduce una Hora Fin.", Severity.Warning, config => { config.HideIcon = true; });
-                return;
-            }
-            
-            tableData.Add(new TableRowData{ Column1 = 1, Column2 = horario.Descripcion, Column3 = horario.HoraInicio, Column4 = horario.HoraFin });
-
-            horario.Descripcion = "";
-            horaInicio.ClearAsync();
-            horaFin.ClearAsync();
-
-        }
 
         private async Task Guardar()
         {
@@ -108,7 +61,7 @@ namespace ConsolaBlazor.Pages.Horarios
             var myContent = JsonConvert.SerializeObject(horario);
             var content = new StringContent(myContent, Encoding.UTF8, "application/json");
             var baseUrl = Configuration["UrlBackend"];
-            var url = $"{baseUrl}/api/CreacionUsuario/CrearUsuario";
+            var url = $"{baseUrl}/api/Horarios/CrearHorario";
             var response = await httpClient.PostAsync(url, content);
 
             if (response.IsSuccessStatusCode)
@@ -159,7 +112,7 @@ namespace ConsolaBlazor.Pages.Horarios
             var myContent = JsonConvert.SerializeObject(item);
             var content = new StringContent(JsonConvert.SerializeObject(myContent), Encoding.UTF8, "application/json");
             var baseUrl = Configuration["UrlBackend"];
-            var url = $"{baseUrl}/api/CreacionUsuario/ActualizarUsuario";
+            var url = $"{baseUrl}/api/Horarios/ActualizarHorario";
             var response = await httpClient.PostAsync(url, content);
             Console.WriteLine($"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
             Console.WriteLine(response.ToString());
@@ -171,7 +124,7 @@ namespace ConsolaBlazor.Pages.Horarios
             {
                 Console.WriteLine("Traer usuarios");
                 var baseUrl = Configuration["UrlBackend"];
-                var url = $"{baseUrl}/api/CreacionUsuario/ListarUsuarios";
+                var url = $"{baseUrl}/api/Horarios/ListarHorarios";
                 var response = await httpClient.GetAsync(url);
                 Console.WriteLine("RespUsuarios");
                 Console.WriteLine(response.ToString());
@@ -180,7 +133,7 @@ namespace ConsolaBlazor.Pages.Horarios
                     var horarios = await response.Content.ReadFromJsonAsync<List<HorariosDTO>>();
                     if (horarios?.Count > 0)
                     {
-                        Horarios = horarios;
+                        ListaHorarios = horarios;
 
                     }
                 }
@@ -192,20 +145,12 @@ namespace ConsolaBlazor.Pages.Horarios
             }
         }
 
-        // Lista de datos de la tabla
-        private List<TableRowData> tableData = new List<TableRowData>
+        protected override async Task OnInitializedAsync()
         {
-            new TableRowData { Column1 = 1, Column2 = "123456789", Column3 = "Contacto 1", Column4 = "Departamento 1"},
-            new TableRowData { Column1 = 2, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            new TableRowData { Column1 = 3, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            new TableRowData { Column1 = 4, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            new TableRowData { Column1 = 5, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            new TableRowData { Column1 = 6, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            new TableRowData { Column1 = 7, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            new TableRowData { Column1 = 8, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            new TableRowData { Column1 = 9, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2"},
-            // Agrega más datos aquí según sea necesario
-        };
+            
+            await FetchHorarios();
+
+        }
 
     }
 }

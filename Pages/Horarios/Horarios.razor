@@ -13,7 +13,7 @@
             <MudText Style="font-size: 23px;">Horarios</MudText>
 
             <MudContainer Class="d-flex justify-end pr-0">
-                <MudButton Size="Size.Small" Style="min-width:0" @onclick="Prueba">
+                <MudButton Size="Size.Small" Style="min-width:0" @onclick="Guardar">
                     <MudImage Src="images/guardar.png" Alt="Guardar" title="Guardar" />
                 </MudButton>
                 <MudButton Size="Size.Small" Style="min-width:0">
@@ -60,7 +60,7 @@
             </MudItem>
         </MudGrid>
         
-        <MudDataGrid HeaderClass="data-grid-header" T="HorariosDTO" ReadOnly="false" Items="Horarios" Class="mb-0" FilterMode="DataGridFilterMode.Simple"
+        <MudDataGrid HeaderClass="data-grid-header" T="HorariosDTO" ReadOnly="false" Items="ListaHorarios" Class="mb-0" FilterMode="DataGridFilterMode.Simple"
                      Dense="true" Striped="true" Bordered="true" Virtualize="true" CommittedItemChanges="@ActualizarHorario"
                      EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual">
             <Columns>
@@ -87,7 +87,10 @@
                                 CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
 
                 <TemplateColumn Hidden="false"
-                    CellClass="d-flex justify-end align-center">
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell" Style="max-width:150px !important"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;">
                     <CellTemplate>
                         <MudStack Row>
                             <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />

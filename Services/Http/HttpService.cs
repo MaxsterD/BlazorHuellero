@@ -50,7 +50,7 @@ namespace ConsolaBlazor.Services.Http
                     var errorResponse = await response.Content.ReadAsStringAsync();
                     var errorData = JsonSerializer.Deserialize<ApiResponseDTO>(errorResponse);
 
-                    var Message = errorData?.Message ?? errorData?.Mensaje ?? string.Empty;
+                    var Message = errorData?.Message ?? string.Empty;
 
                     _snackbar.Add(Message, Severity.Warning, config => { config.HideIcon = true; });
                     return null;

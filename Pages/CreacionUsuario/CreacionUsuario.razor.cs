@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using ConsolaBlazor.Services.DTOs.Login;
 using System.Text;
+using ConsolaBlazor.Services.DTOs;
 
 namespace ConsolaBlazor.Pages.CreacionUsuario
 {
@@ -28,7 +29,6 @@ namespace ConsolaBlazor.Pages.CreacionUsuario
         [Inject] IConfiguration Configuration { get; set; }
 
         private string titleBarStyle = $"height:7%;background-color:{AtowerTheme.Default.PaletteLight.Primary}; color:white;";
-        private string headerBarStyle = $"background-color:{AtowerTheme.Default.PaletteLight.Primary}; color:white;";
 
         private UsuarioDTO Criterio = new UsuarioDTO();
 
@@ -62,15 +62,27 @@ namespace ConsolaBlazor.Pages.CreacionUsuario
             var response = await httpClient.PostAsync(url, content);
             if (response.IsSuccessStatusCode)
             {
+                var data = response.Content.ReadAsStringAsync().Result;
+                var responseB = JsonConvert.DeserializeObject<ApiResponseDTO>(data);
+                if (responseB.Success)
+                {
+                    Snackbar.Add("Usuario creado con exito!", Severity.Success);
+                    await FetchUsuarios().ConfigureAwait(false);
+                    Usuario.Nombre = "";
+                    Usuario.Tipo_Identificacion = "";
+                    Usuario.Identificacion = null;
+                    Usuario.Id = null;
+                }
+                else
+                {
+                    
+                    Snackbar.Add(responseB.Message, Severity.Error);
 
-                await FetchUsuarios().ConfigureAwait(false);
+                    
+                }
+                
 
-                Snackbar.Add("Usuario creado con exito!", Severity.Success);
-
-                Usuario.Nombre = "";
-                Usuario.Tipo_Identificacion = "";
-                Usuario.Identificacion = null;
-                Usuario.Id = null;
+                
 
                 
 
