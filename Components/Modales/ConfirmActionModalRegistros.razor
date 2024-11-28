@@ -1,0 +1,61 @@
+﻿@using ConsolaBlazor.Pages.AdministrarTiempos
+@using ConsolaBlazor.Services.DTOs
+@using ConsolaBlazor.Services.DTOs.AdministrarTiempos
+@using ConsolaBlazor.Services.DTOs.Horarios
+@using System.Text.Json;
+@using System.Text
+@inject ISnackbar Snackbar
+@inject IConfiguration Configuration
+@inject HttpClient httpClient
+
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Class="mr-3 mb-n1" />
+            Seguro que desea borrar el registro?
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText>Esta apunto de borrar el registro</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" OnClick="DeleteServer">Borrar Registro</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+    [Parameter]
+    public RegistrosTiemposDTO Server { get; set; } = new RegistrosTiemposDTO();
+    [Parameter]
+    public bool isLoading { get; set; } = false;
+
+
+    private async void DeleteServer()
+    {
+        var jsonContent = new StringContent(JsonSerializer.Serialize(Server), Encoding.UTF8, "application/json");
+        var baseUrl = Configuration["UrlBackend"];
+        var url = $"{baseUrl}/api/ConectarHuellero/BorrarRegistro";
+        var response = await httpClient.PostAsync(url, jsonContent);
+        response.EnsureSuccessStatusCode();
+        var responseString = await response.Content.ReadAsStringAsync();
+        var apiResponse = JsonSerializer.Deserialize<ApiResponseDTO>(responseString);
+        if (apiResponse.Success)
+        {
+            isLoading = true;
+            Snackbar.Add(apiResponse.Message, Severity.Success);
+            MudDialog.Close(DialogResult.Ok(Server));
+        }else{
+            Snackbar.Add(apiResponse.Message, Severity.Error);
+            MudDialog.Cancel();
+        }
+        
+    }
+
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+    private void Cancel() => MudDialog.Cancel();
+
+}

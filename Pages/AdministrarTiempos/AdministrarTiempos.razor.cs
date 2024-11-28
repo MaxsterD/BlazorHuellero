@@ -14,6 +14,7 @@ using ConsolaBlazor.Services.DTOs;
 using ConsolaBlazor.Services.DTOs.CreacionUsuario;
 using Microsoft.Win32;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace ConsolaBlazor.Pages.AdministrarTiempos
 {
@@ -23,7 +24,7 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
         private EmpleadosDTO Empleado = new EmpleadosDTO();
         private List<RegistrosTiemposDTO> Registros { get; set; } = new List<RegistrosTiemposDTO>();
         private RegistrosTiemposDTO Registro { get; set; } = new RegistrosTiemposDTO();
-        private bool isLoading = false;  // Variable para controlar el estado de carga
+        public bool isLoading = false;  // Variable para controlar el estado de carga
 
         [Inject] HttpClient httpClient { get; set; }
         [Inject] AuthenticationStateProvider autenticacionProvider { get; set; }
@@ -64,20 +65,22 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
         private async Task BorrarRegistro(RegistrosTiemposDTO datos)
         {
             Console.WriteLine(JsonSerializer.Serialize(datos).ToString());
-            //var parameters = new DialogParameters<ConfirmActionModalDate> { { x => x.Server, datos } };
+            var parameters = new DialogParameters<ConfirmActionModalRegistros> { { x => x.Server, datos }, { x => x.isLoading, isLoading } };
+            isLoading = true;
+            var dialog = await DialogService.ShowAsync<ConfirmActionModalRegistros>("Borrar Registro", parameters);
+            var result = await dialog.Result;
+            Console.WriteLine("Result");
 
-            //var dialog = await DialogService.ShowAsync<ConfirmActionModalDate>("Borrar Registro", parameters);
-            //var result = await dialog.Result;
+            if (!result.Canceled)
+            {
+                Console.WriteLine("Se borro");
+                await Task.Delay(1500);
+                isLoading = true;
+                await FetchRegistros();
+            }
 
-            //if (!result.Canceled)
-            //{
-            //    //In a real world scenario we would reload the data from the source here since we "removed" it in the dialog already.
-
-            //    Console.WriteLine(result.Data.ToString());
-            //    //Registro = JsonSerializer.Serialize(result.Data.ToString());
-
-            //    //Registros.RemoveAll(item => item.IdUsuario == registo);
-            //}
+            Console.WriteLine("Fuera del if");
+            isLoading = false;
         }
 
         private async Task ActualizarRegistro(RegistrosTiemposDTO item)
