@@ -64,9 +64,8 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
 
         private async Task BorrarRegistro(RegistrosTiemposDTO datos)
         {
-            Console.WriteLine(JsonSerializer.Serialize(datos).ToString());
-            var parameters = new DialogParameters<ConfirmActionModalRegistros> { { x => x.Server, datos }, { x => x.isLoading, isLoading } };
             isLoading = true;
+            var parameters = new DialogParameters<ConfirmActionModalRegistros> { { x => x.Server, datos }, { x => x.isLoading, isLoading } };
             var dialog = await DialogService.ShowAsync<ConfirmActionModalRegistros>("Borrar Registro", parameters);
             var result = await dialog.Result;
             Console.WriteLine("Result");
@@ -176,6 +175,9 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
                 }
 
                 Registros = JsonSerializer.Deserialize<List<RegistrosTiemposDTO>>(apiResponse.Data.ToString());
+
+                _dateRange = null;
+                Empleado = new EmpleadosDTO();
 
                 isLoading = false;
 

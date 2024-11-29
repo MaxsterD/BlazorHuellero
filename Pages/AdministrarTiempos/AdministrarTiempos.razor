@@ -14,11 +14,14 @@
             <MudText Style="font-size: 23px;width:100%">Administracion de Tiempos</MudText>
 
             <MudContainer Class="d-flex justify-end pr-0">
+                <MudButton Size="Size.Small" Style="min-width:0" @onclick="FetchRegistros">
+                    <MudImage Src="images/nuevo.png" Alt="Nuevo" title="Nuevo" />
+                </MudButton>
                 <MudButton Size="Size.Small" Style="min-width:0" @onclick="Buscar">
-                    <MudImage Src="images/guardar.png" Alt="Guardar" title="Guardar" />
+                    <MudImage Src="images/Consulta.png" Alt="Consultar" title="Consultar" />
                 </MudButton>
                 <MudButton Size="Size.Small" Style="min-width:0" @onclick="AlimentarBase">
-                    <MudImage Src="images/guardar.png" Alt="Recibir datos del huellero" title="Recibir datos del huellero" />
+                    <MudImage Src="images/registros.png" Alt="Recibir datos del huellero" title="Recibir datos del huellero" />
                 </MudButton>
                 <MudButton Size="Size.Small" Style="min-width:0">
                     <MudImage Src="images/imprimir.png" Alt="Imprimir" title="Imprimir" />

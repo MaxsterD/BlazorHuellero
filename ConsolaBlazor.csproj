@@ -41,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Components\Modales\ModalBorrarRegistro.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
     <Content Update="wwwroot\appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

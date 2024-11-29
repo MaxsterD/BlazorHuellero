@@ -1,0 +1,130 @@
+﻿@page "/asignacionHorarios"
+@using ConsolaBlazor.Services.DTOs.CreacionUsuario
+@using ConsolaBlazor.Services.DTOs.Horarios
+@attribute [Authorize]
+@inject IDialogService DialogService
+
+
+<div class="d-flex justify-center mt-1 py-1">
+    <MudPaper Class="pb-0" Elevation="1" Style="width: 50%;  height:100%">
+
+        <MudContainer Class="d-flex align-center pl-1 py-1 pr-0" Style="@titleBarStyle">
+            <MudImage Src="images/Simbolo.png" Alt="Sisma" />
+            <MudText Style="font-size: 23px; width:100%">Asignar Horarios</MudText>
+
+            <MudContainer Class="d-flex justify-end pr-0">
+                <MudButton Size="Size.Small" Style="min-width:0" @onclick="Guardar">
+                    <MudImage Src="images/guardar.png" Alt="Guardar" title="Guardar" />
+                </MudButton>
+                <MudButton Size="Size.Small" Style="min-width:0">
+                    <MudImage Src="images/imprimir.png" Alt="Imprimir" title="Imprimir" />
+                </MudButton>
+            </MudContainer>
+        </MudContainer>
+
+        <MudGrid Spacing="1" Class="mt-3 px-1">
+            <MudItem Class="mx-0 ml-4" xs="12" sm="3">
+                <MudText Style="color:#336699;">Usuario</MudText>
+            </MudItem>
+            <MudItem Class="mx-0" xs="12" sm="5">
+                <MudTextField ShrinkLabel @bind-Value="Usuario.Nombre"
+                              InputType="InputType.Text"
+                              Required="true"
+                              RequiredError="El Usuario es requerido"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              Style="height:20px">
+                </MudTextField>
+            </MudItem>
+            <MudItem Class="mx-0" xs="12" sm="3">
+                <MudIcon Icon="@Icons.Material.Filled.Search" @onclick="BuscarUsuarios" Title="Buscar" Class="cursor-pointer" />
+            </MudItem>
+            <MudItem Class="mx-0 ml-4" xs="12" sm="3">
+                <MudText Style="color:#336699;">Horario</MudText>
+            </MudItem>
+            <MudItem Class="mx-0" xs="12" sm="5">
+                <MudTextField ShrinkLabel @bind-Value="Horario.Descripcion"
+                              InputType="InputType.Text"
+                              Required="true"
+                              RequiredError="El Horario es requerido"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              Style="height:20px">
+                </MudTextField>
+            </MudItem>
+            <MudItem Class="mx-0" xs="12" sm="3">
+                <MudIcon Icon="@Icons.Material.Filled.Search" @onclick="BuscarHorarios" Title="Buscar" Class="cursor-pointer" />
+            </MudItem>
+        </MudGrid>
+
+        <MudDataGrid HeaderClass="data-grid-header" T="HorariosUsuariosDTO" ReadOnly="false" Items="HorariosUsuarios" Class="mb-0" FilterMode="DataGridFilterMode.Simple"
+                     Dense="true" Striped="true" Bordered="true" Virtualize="true" CommittedItemChanges="@ActualizarRegistro"
+                     EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual">
+            <Columns>
+                <PropertyColumn Property="x => x.Id" Hidden="true" Title="Id" Editable="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell">
+                    <EditTemplate>
+                    </EditTemplate>
+                </PropertyColumn>
+
+                <PropertyColumn Property="x => x.IdUsuario" Hidden="true" Title="Id" Editable="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell">
+                    <EditTemplate>
+                    </EditTemplate>
+                </PropertyColumn>
+
+                <PropertyColumn Property="x => x.IdHorario" Hidden="true" Title="Id" Editable="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell">
+                    <EditTemplate>
+                    </EditTemplate>
+                </PropertyColumn>
+
+                <PropertyColumn Property="x => x.DescripcionUsuario" Title="Usuario" Filterable="true"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+
+                <PropertyColumn Property="x => x.DescripcionHorario" Title="Horario" Filterable="true"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+
+                <PropertyColumn Property="x => x.HoraInicio" Title="Hora Inicio" Filterable="true"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+
+                <PropertyColumn Property="x => x.HoraFin" Title="Hora Fin" Filterable="true"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+                
+                <TemplateColumn Hidden="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell" Style="max-width:150px !important"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;">
+                    <CellTemplate>
+                        <MudStack Row>
+                            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="@((e) => BorrarRegistro(context.Item))" />
+                        </MudStack>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="UsuarioDTO" />
+            </PagerContent>
+        </MudDataGrid>
+
+
+
+    </MudPaper>
+</div>

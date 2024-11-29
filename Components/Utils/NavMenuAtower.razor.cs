@@ -44,6 +44,7 @@ namespace ConsolaBlazor.Components.Utils
 
         private List<LinkItemDTO> ConfigLinks = new List<LinkItemDTO>()
         {
+            new LinkItemDTO { Path = "parametros", Name = "Parametros" },
             new LinkItemDTO { Path = "horarios", Name = "Creacion de horarios" },
             new LinkItemDTO { Path = "crearUsuario", Name = "Crear Usuarios" },
             new LinkItemDTO { Path = "asignacionLider", Name = "Asignar Usuarios" },

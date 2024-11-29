@@ -71,7 +71,7 @@ namespace ConsolaBlazor.Pages.CreacionUsuario
                     Usuario.Nombre = "";
                     Usuario.Tipo_Identificacion = "";
                     Usuario.Identificacion = null;
-                    Usuario.Id = null;
+                    Usuario.Id = 0;
                 }
                 else
                 {

@@ -1,0 +1,56 @@
+﻿@page "/parametros"
+@using ConsolaBlazor.Services.DTOs.Parametros
+@attribute [Authorize]
+@inject IDialogService DialogService
+
+
+<div class="d-flex justify-center mt-1 py-1">
+    <MudPaper Class="pb-0" Elevation="1" Style="width: 50%;  height:100%">
+
+        <MudContainer Class="d-flex align-center pl-1 py-1 pr-0" Style="@titleBarStyle">
+            <MudImage Src="images/Simbolo.png" Alt="Sisma" />
+            <MudText Style="font-size: 23px; width:100%">Parametros</MudText>
+
+        </MudContainer>
+
+        <MudDataGrid HeaderClass="data-grid-header" T="ParametrosDTO" ReadOnly="false" Items="ListaParametros" Class="mb-0" FilterMode="DataGridFilterMode.Simple"
+                     Dense="true" Striped="true" Bordered="true" Virtualize="true" CommittedItemChanges="@ActualizarParametro"
+                     EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual">
+            <Columns>
+                <PropertyColumn Property="x => x.Id" Hidden="true" Title="Id" Editable="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell">
+                    <EditTemplate>
+                    </EditTemplate>
+                </PropertyColumn>
+
+                <PropertyColumn Property="x => x.Descripcion" Title="Descripcion" Filterable="true" Editable="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+
+                <PropertyColumn Property="x => x.Valor" Title="Valor" Filterable="true"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+                <TemplateColumn Hidden="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell" Style="max-width:150px !important"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;">
+                    <CellTemplate>
+                        <MudStack Row>
+                            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                        </MudStack>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="ParametrosDTO" />
+            </PagerContent>
+        </MudDataGrid>
+
+    </MudPaper>
+</div>
