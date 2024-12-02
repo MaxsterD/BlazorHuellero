@@ -4,10 +4,13 @@ using ConsolaBlazor.Services.DTOs.Horarios;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using ConsolaBlazor.Services.DTOs.Login;
-using ConsolaBlazor.Pages.Login;
+using ConsolaBlazor.Services.DTOs;
+using Newtonsoft.Json;
+using System.Text;
+using ConsolaBlazor.Services.DTOs.AsignacionLider;
+using ConsolaBlazor.Pages.Horarios;
 using System.Net.Http.Json;
-using ConsolaBlazor.Services.DTOs.AsignarEmpleados;
+using ConsolaBlazor.Pages.Login;
 
 namespace ConsolaBlazor.Pages.AsignacionLider
 {
@@ -15,6 +18,8 @@ namespace ConsolaBlazor.Pages.AsignacionLider
     {
         private EmpleadosDTO Lider = new EmpleadosDTO();
         private EmpleadosDTO Empleado = new EmpleadosDTO();
+        private AsignacionLiderDTO DatosAsignacion = new AsignacionLiderDTO();
+        private List<EmpleadosLideresDTO> ListaEmpleadosUsuarios { get; set; } = new List<EmpleadosLideresDTO>();
         [Inject] HttpClient httpClient { get; set; }
         [Inject] AuthenticationStateProvider autenticacionProvider { get; set; }
         [Inject] NavigationManager Navigation { get; set; }
@@ -22,31 +27,30 @@ namespace ConsolaBlazor.Pages.AsignacionLider
         [Inject] IConfiguration Configuration { get; set; }
 
         private string titleBarStyle = $"max-width:2000px;height:7%;background-color:{AtowerTheme.Default.PaletteLight.Primary}; color:white;";
-        private string headerBarStyle = $"background-color:{AtowerTheme.Default.PaletteLight.Primary}; color:white;";
 
-        private EmpleadosDTO Criterio = new EmpleadosDTO();
+        private EmpleadosBuscarDTO Criterio = new EmpleadosBuscarDTO();
 
         private async Task BuscarLideres()
         {
            
-            var UrlGet = $"api/AsignarLideres/ListarEmpleados";
+            var UrlGet = $"api/Usuarios/BuscarUsuario";
             var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = false };
-            var parametros = new DialogParameters<BuscarLupa<EmpleadosDTO>>
+            var parametros = new DialogParameters<BuscarLupa<EmpleadosBuscarDTO>>
             {
                 {x => x.Url, UrlGet},
                 {x => x.OpcionesType, new CriterioEmpleadoDTO()},
                 {x => x.Titulo, "Buscar Lideres"}
             };
-            var dialog = await DialogService.ShowAsync <BuscarLupa<EmpleadosDTO>>("", parametros, options);
+            var dialog = await DialogService.ShowAsync <BuscarLupa<EmpleadosBuscarDTO>>("", parametros, options);
             var result = await dialog.Result;
             
 
             if (result != null && !result.Canceled && result.Data != null)
             {
-                Criterio = result.Data as EmpleadosDTO;
+                Criterio = result.Data as EmpleadosBuscarDTO;
                 Lider.Id = Criterio.Id;
                 Lider.Nombre = Criterio.Nombre;
-                Lider.Identificacion = Criterio.Identificacion;
+                Lider.Identificacion = Criterio.Identificacion.ToString();
                 
             }
         }
@@ -54,32 +58,32 @@ namespace ConsolaBlazor.Pages.AsignacionLider
         private async Task BuscarEmpleados()
         {
 
-            var UrlGet = $"api/AsignarLideres/ListarEmpleados";
+            var UrlGet = $"api/Usuarios/BuscarUsuario";
             var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = false };
-            var parametros = new DialogParameters<BuscarLupa<EmpleadosDTO>>
+            var parametros = new DialogParameters<BuscarLupa<EmpleadosBuscarDTO>>
             {
                 {x => x.Url, UrlGet},
                 {x => x.OpcionesType, new CriterioEmpleadoDTO()},
                 {x => x.Titulo, "Buscar Empleados"}
             };
-            var dialog = await DialogService.ShowAsync<BuscarLupa<EmpleadosDTO>>("", parametros, options);
+            var dialog = await DialogService.ShowAsync<BuscarLupa<EmpleadosBuscarDTO>>("", parametros, options);
             var result = await dialog.Result;
 
 
             if (result != null && !result.Canceled && result.Data != null)
             {
-                Criterio = result.Data as EmpleadosDTO;
+                Criterio = result.Data as EmpleadosBuscarDTO;
                 Empleado.Id = Criterio.Id;
                 Empleado.Nombre = Criterio.Nombre;
-                Empleado.Identificacion = Criterio.Identificacion;
+                Empleado.Identificacion = Criterio.Identificacion.ToString();
             }
         }
 
-        private async Task DeleteServerAsync(TableRowData datos)
+        private async Task BorrarUsuarioLider(EmpleadosLideresDTO datos)
         {
-            var parameters = new DialogParameters<ConfirmActionModal> { { x => x.Server, datos } };
+            var parameters = new DialogParameters<ModalBorrarEmpleadoLider> { { x => x.Server, datos } };
 
-            var dialog = await DialogService.ShowAsync<ConfirmActionModal>("Borrar Registro", parameters);
+            var dialog = await DialogService.ShowAsync<ModalBorrarEmpleadoLider>("Borrar Registro", parameters);
             var result = await dialog.Result;
 
             if (!result.Canceled)
@@ -88,11 +92,11 @@ namespace ConsolaBlazor.Pages.AsignacionLider
 
                 Console.WriteLine(result.Data.ToString());
 
-                tableData.RemoveAll(item => item.Column1 == (int)result.Data);
+                await FetchUsuariosLider();
             }
         }
 
-        private void Guardar()
+        private async Task Guardar()
         {
             if (Lider == null)
             {
@@ -119,29 +123,104 @@ namespace ConsolaBlazor.Pages.AsignacionLider
                 return;
             }
 
-            //tableData.Add(new TableRowData { Column1 = Lider.Id, Column2 = Lider.Nombre, Column3 = Lider.Identificacion, Column4 = Empleado.Nombre, Column5 = Empleado.Identificacion });
-            
-            Lider.Nombre = "";
-            Lider.Identificacion = "";
-            Lider.Id = 0;
-            Empleado.Nombre = "";
-            Empleado.Identificacion = "";
-            Empleado.Id = 0;
+
+            DatosAsignacion = new AsignacionLiderDTO(){ IdLider = Lider.Id, IdEmpleado = Empleado.Id };
+
+            var myContent = JsonConvert.SerializeObject(DatosAsignacion);
+            var content = new StringContent(myContent, Encoding.UTF8, "application/json");
+            var baseUrl = Configuration["UrlBackend"];
+            var url = $"{baseUrl}/api/AsignarLideres/GuardarEmpleadoLider";
+            var response = await httpClient.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var data = response.Content.ReadAsStringAsync().Result;
+                var responseB = JsonConvert.DeserializeObject<ApiResponseDTO>(data);
+                if (responseB.Success)
+                {
+                    Snackbar.Add("Empelado asignado al Lider con exito!", Severity.Success);
+                    await FetchUsuariosLider().ConfigureAwait(false);
+                    Lider = new EmpleadosDTO();
+                    Empleado = new EmpleadosDTO();
+
+                }
+                else
+                {
+                    Snackbar.Add(responseB.Message, Severity.Error);
+                }
+            }
+            else
+            {
+                await FetchUsuariosLider().ConfigureAwait(false);
+
+                Snackbar.Add("Hubo un error al asignar el usuario al lider!", Severity.Error);
+
+            }
 
 
         }
 
-        private List<TableRowData> tableData = new List<TableRowData>
+        private async Task Buscar()
         {
-            new TableRowData { Column1 = 1, Column2 = "123456789", Column3 = "Contacto 1", Column4 = "Departamento 1", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 2, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 3, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 4, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 5, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 6, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 7, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 8, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-            new TableRowData { Column1 = 9, Column2 = "987654321", Column3 = "Contacto 2", Column4 = "Departamento 2", Column5 = "Departamento 2"},
-        };
+            EmpleadosLideresDTO datos = new EmpleadosLideresDTO();
+
+            var UrlGet = $"api/Usuarios/BuscarUsuario";
+            var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = false };
+            var parametros = new DialogParameters<BuscarLupa<EmpleadosBuscarDTO>>
+            {
+                {x => x.Url, UrlGet},
+                {x => x.OpcionesType, new CriterioEmpleadoDTO()},
+                {x => x.Titulo, "Buscar Lideres"}
+            };
+            var dialog = await DialogService.ShowAsync<BuscarLupa<EmpleadosBuscarDTO>>("", parametros, options);
+            var result = await dialog.Result;
+
+
+            if (result != null && !result.Canceled && result.Data != null)
+            {
+                
+                Criterio = result.Data as EmpleadosBuscarDTO;
+                datos.IdLider = Criterio.Id;
+                await FetchUsuariosLider(datos);
+
+            }
+            
+        }
+
+        private async Task FetchUsuariosLider(EmpleadosLideresDTO? datos = null)
+        {
+            try
+            {
+
+                var myContent = JsonConvert.SerializeObject(datos);
+                var content = new StringContent(myContent, Encoding.UTF8, "application/json");
+                var baseUrl = Configuration["UrlBackend"];
+                var url = $"{baseUrl}/api/AsignarLideres/ListarEmpleadosLider";
+                var response = await httpClient.PostAsync(url,content);
+                Console.WriteLine(response.ToString());
+                if (response.IsSuccessStatusCode)
+                {
+                    var registros = await response.Content.ReadFromJsonAsync<List<EmpleadosLideresDTO>>();
+                    if (registros?.Count > 0)
+                    {
+                        ListaEmpleadosUsuarios = registros;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Snackbar.Add("Hubo un error al traer los usuarios", Severity.Error, config => { config.HideIcon = true; });
+            }
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+
+            await FetchUsuariosLider();
+
+        }
+
     }
 }

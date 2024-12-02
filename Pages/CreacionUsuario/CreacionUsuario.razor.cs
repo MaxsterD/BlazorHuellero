@@ -120,12 +120,33 @@ namespace ConsolaBlazor.Pages.CreacionUsuario
         private async Task ActualizarUsuario(UsuarioDTO item)
         {
             var myContent = JsonConvert.SerializeObject(item);
-            var content = new StringContent(JsonConvert.SerializeObject(myContent), Encoding.UTF8, "application/json");
+            var content = new StringContent(myContent, Encoding.UTF8, "application/json");
             var baseUrl = Configuration["UrlBackend"];
             var url = $"{baseUrl}/api/Usuarios/ActualizarUsuario";
             var response = await httpClient.PostAsync(url, content);
-            Console.WriteLine($"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
-            Console.WriteLine(response.ToString());
+            if (response.IsSuccessStatusCode)
+            {
+                var data = response.Content.ReadAsStringAsync().Result;
+                var responseB = JsonConvert.DeserializeObject<ApiResponseDTO>(data);
+                if (responseB.Success)
+                {
+                    Snackbar.Add(responseB.Message, Severity.Success, config => { config.HideIcon = true; });
+                    await FetchUsuarios().ConfigureAwait(false);
+                }
+                else
+                {
+                    Snackbar.Add(responseB.Message, Severity.Error);
+                }
+            }
+            else
+            {
+                await FetchUsuarios().ConfigureAwait(false);
+
+                Snackbar.Add("Hubo un error al actualizar el usuario!", Severity.Error);
+
+            }
+           
+
         }
 
         private async Task FetchUsuarios()

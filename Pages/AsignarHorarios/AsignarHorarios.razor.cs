@@ -155,7 +155,7 @@ namespace ConsolaBlazor.Pages.AsignarHorarios
         private async Task ActualizarRegistro(HorariosUsuariosDTO item)
         {
             var myContent = JsonConvert.SerializeObject(item);
-            var content = new StringContent(JsonConvert.SerializeObject(myContent), Encoding.UTF8, "application/json");
+            var content = new StringContent(myContent, Encoding.UTF8, "application/json");
             var baseUrl = Configuration["UrlBackend"];
             var url = $"{baseUrl}/api/Usuarios/ActualizarUsuario";
             var response = await httpClient.PostAsync(url, content);

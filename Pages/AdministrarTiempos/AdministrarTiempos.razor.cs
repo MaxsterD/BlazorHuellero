@@ -1,20 +1,17 @@
 ﻿using ConsolaBlazor.Components.Modales;
 using ConsolaBlazor.CustomStyle;
 using ConsolaBlazor.Services.DTOs.AsignarEmpleados;
-using ConsolaBlazor.Services.DTOs.Horarios;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using MudBlazor.Extensions;
-using static MudBlazor.CategoryTypes;
-using System.Net.Http.Json;
 using System.Text.Json;
 using ConsolaBlazor.Services.DTOs.AdministrarTiempos;
 using ConsolaBlazor.Services.DTOs;
-using ConsolaBlazor.Services.DTOs.CreacionUsuario;
-using Microsoft.Win32;
 using System.Text;
-using Newtonsoft.Json.Linq;
+using Microsoft.JSInterop;
+using iText.Kernel.Pdf;         // Para PdfWriter y PdfDocument
+using iText.Layout;              // Para Document y Table
+using iText.Layout.Element;      // Para los elementos de la tabla como Table, Cell
 
 namespace ConsolaBlazor.Pages.AdministrarTiempos
 {
@@ -31,6 +28,8 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
         [Inject] NavigationManager Navigation { get; set; }
         [Inject] ISnackbar Snackbar { get; set; }
         [Inject] IConfiguration Configuration { get; set; }
+        [Inject] IJSRuntime JSRuntime { get; set; }
+
 
         private string titleBarStyle = $"height:7%;background-color:{AtowerTheme.Default.PaletteLight.Primary}; color:white;";
 
@@ -75,7 +74,7 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
                 Console.WriteLine("Se borro");
                 await Task.Delay(1500);
                 isLoading = true;
-                await FetchRegistros();
+                await Buscar(null);
             }
 
             Console.WriteLine("Fuera del if");
@@ -84,33 +83,80 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
 
         private async Task ActualizarRegistro(RegistrosTiemposDTO item)
         {
-            Console.WriteLine(JsonSerializer.Serialize(item).ToString());
 
-            //var myContent = JsonConvert.SerializeObject(item);
-            //var content = new StringContent(JsonConvert.SerializeObject(myContent), Encoding.UTF8, "application/json");
-            //var baseUrl = Configuration["UrlBackend"];
-            //var url = $"{baseUrl}/api/Usuarios/ActualizarUsuario";
-            //var response = await httpClient.PostAsync(url, content);
-            //Console.WriteLine($"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
-            //Console.WriteLine(response.ToString());
+            if((item.HoraEntrada == null || item.HoraEntrada == "") && (item.HoraSalida == null || item.HoraSalida == ""))
+            {
+                Snackbar.Add("Ambos registros no pueden estar vacios", Severity.Error);
+                await Buscar(null);
+
+            }
+            else
+            {
+                var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(item), Encoding.UTF8, "application/json");
+                var baseUrl = Configuration["UrlBackend"];
+                var url = $"{baseUrl}/api/Huellero/ActualizarRegistro";
+                var response = await httpClient.PostAsync(url, jsonContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = response.Content.ReadAsStringAsync().Result;
+                    var responseB = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResponseDTO>(data);
+                    if (responseB.Success)
+                    {
+                        Snackbar.Add(responseB.Message, Severity.Success, config => { config.HideIcon = true; });
+                        if (DateTime.TryParse(item.Fecha, out DateTime fecha))
+                        {
+                            await Buscar(fecha);
+                        }
+                    }
+                    else
+                    {
+                        Snackbar.Add(responseB.Message, Severity.Error);
+                    }
+                }
+                else
+                {
+                    if (DateTime.TryParse(item.Fecha, out DateTime fecha))
+                    {
+                        await Buscar(fecha);
+                    }
+
+                    Snackbar.Add("Hubo un error al actualizar el registro!", Severity.Error);
+
+                }
+                Console.WriteLine($"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+                Console.WriteLine(response.ToString());
+            }
+
+            
         }
 
-        private async Task Buscar()
+        private async Task Buscar(DateTime? fecha)
         {
 
             try
             {
+                var fechaInicio="";
+                var fechaFin="";
+                if (fecha.HasValue) // Verifica si 'fecha' tiene un valor
+                {
+                    fechaInicio = fecha.Value.ToString("yyyy-MM-dd"); // Usa .Value para acceder al DateTime subyacente
+                    fechaFin = fecha.Value.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                     fechaInicio = _dateRange?.Start.Value.ToString("yyyy-MM-dd");
+                     fechaFin = _dateRange?.End.Value.ToString("yyyy-MM-dd");
+                }
                 isLoading = true;
-                var fechaInicio = _dateRange?.Start.Value;
-                var fechaFin = _dateRange?.End.Value;
+                
                 var baseUrl = Configuration["UrlBackend"];
-                var url = $"{baseUrl}/api/ConectarHuellero/RecibirDatos";
+                var url = $"{baseUrl}/api/Huellero/RecibirDatos";
 
                 var requestBody = new
                 {
                     IdUsuario = Empleado.Id?.ToString(),
-                    FechaInicio = fechaInicio?.ToString("yyyy-MM-dd"),
-                    FechaFin = fechaFin?.ToString("yyyy-MM-dd")
+                    FechaInicio = fechaInicio,
+                    FechaFin = fechaFin
                 };
 
                 var jsonContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
@@ -149,7 +195,7 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
                 var fechaInicio =_dateRange?.Start.Value;
                 var fechaFin = _dateRange?.End.Value;
                 var baseUrl = Configuration["UrlBackend"];
-                var url = $"{baseUrl}/api/ConectarHuellero/RecibirDatos";
+                var url = $"{baseUrl}/api/Huellero/RecibirDatos";
 
                 var requestBody = new
                 {
@@ -202,7 +248,7 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
             {
                 isLoading = true;
                 var baseUrl = Configuration["UrlBackend"];
-                var url = $"{baseUrl}/api/ConectarHuellero/AlimentarBase";
+                var url = $"{baseUrl}/api/Huellero/AlimentarBase";
 
 
                 var response = await httpClient.GetAsync(url);
@@ -243,7 +289,6 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
             }
         }
 
-
         private Func<RegistrosTiemposDTO, int, string> _rowStyleFunc => (x, i) =>
         {
             if (x.EstadoEntrada == null || x.EstadoEntrada == "Tarde")
@@ -255,5 +300,21 @@ namespace ConsolaBlazor.Pages.AdministrarTiempos
             return "";
         };
 
+        private async Task ExportToPdf()
+        {
+            if (Registros is null || !Registros.Any())
+            {
+                // Verifica si la lista es nula o si está vacía
+                Snackbar.Add("No hay registros que mostrar!", Severity.Error);
+            }
+            else
+            {
+                // Preparar los datos para el PDF (pueden provenir de una base de datos o un MudDataGrid)
+                var data = Registros;
+
+                // Llamar a la función de JavaScript para generar el PDF
+                await JSRuntime.InvokeVoidAsync("generatePdf", data);
+            }
+        }
     }
 }

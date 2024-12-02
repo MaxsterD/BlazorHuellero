@@ -37,7 +37,7 @@
     {
         var jsonContent = new StringContent(JsonSerializer.Serialize(Server), Encoding.UTF8, "application/json");
         var baseUrl = Configuration["UrlBackend"];
-        var url = $"{baseUrl}/api/ConectarHuellero/BorrarRegistro";
+        var url = $"{baseUrl}/api/Huellero/BorrarRegistro";
         var response = await httpClient.PostAsync(url, jsonContent);
         response.EnsureSuccessStatusCode();
         var responseString = await response.Content.ReadAsStringAsync();

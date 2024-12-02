@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <link href="ConsolaBlazor.styles.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
 
     <style>
         html {
@@ -102,15 +104,63 @@
     </div>
 
     <script>
+
         window.BlazorDownloadFile = (url, fileName) => {
             const link = document.createElement('a');
             link.href = url;
             link.download = fileName;
             link.click();
         };
+
+        function generatePdf(data) {
+            console.log(data);
+            const tableData = data.map(row => [
+                row.empleado,
+                row.horaEntrada || 'N/A',
+                row.horaSalida || 'N/A',
+                row.fecha,
+                row.estadoEntrada || 'N/A',
+                row.estadoSalida || 'N/A',
+            ]);
+
+            // Definimos la estructura del PDF
+            const docDefinition = {
+                content: [
+                    { text: 'Reporte de Horarios', style: 'header' },
+                    {
+                        style: 'tableExample',
+                        table: {
+                            headerRows: 1,
+                            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                            body: [
+                                ['Empleado', 'Hora Entrada', 'Hora Entrada', 'Fecha', 'Estado Entrada', 'Estado Salida'],  // Encabezado
+                                ...tableData  // Los datos de la tabla
+                            ]
+                        },
+                        layout: 'lightHorizontalLines'  // Estilo de la tabla
+                    }
+                ],
+                styles: {
+                    header: {
+                        fontSize: 18,
+                        bold: true,
+                        alignment: 'center',
+                        margin: [0, 0, 0, 20]
+                    },
+                    tableExample: {
+                        fontSize: 12,
+                        margin: [0, 5, 0, 15]
+                    }
+                }
+            };
+
+            // Generar el PDF
+            pdfMake.createPdf(docDefinition).download('reporte.pdf');
+        }
     </script>
 
     <script src="js/DownloadReports.js"></script>
+
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
