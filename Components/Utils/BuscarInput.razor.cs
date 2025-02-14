@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.VisualBasic;
 using MudBlazor;
 using System.Runtime.CompilerServices;
-using ConsolaBlazor.Services.Interfaces;
+using BlazorAppHuellero.Services.Interfaces;
 
 
 
-namespace ConsolaBlazor.Components.Utils
+namespace BlazorAppHuellero.Components.Utils
 {
     public partial class BuscarInput<Type>
     {

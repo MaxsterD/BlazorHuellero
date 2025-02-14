@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.DTOs.Login
+﻿namespace BlazorAppHuellero.Services.DTOs.Login
 {
     public class LoginMessage
     {

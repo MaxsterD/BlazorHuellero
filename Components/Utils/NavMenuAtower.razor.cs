@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace ConsolaBlazor.Components.Utils
+namespace BlazorAppHuellero.Components.Utils
 {
     public partial class NavMenuAtower
     {

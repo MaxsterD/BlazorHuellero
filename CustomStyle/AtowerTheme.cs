@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace ConsolaBlazor.CustomStyle
+namespace BlazorAppHuellero.CustomStyle
 {
     public class AtowerTheme
     {

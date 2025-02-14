@@ -1,5 +1,5 @@
-﻿using ConsolaBlazor.Services.DTOs;
-using ConsolaBlazor.Services.Interfaces;
+﻿using BlazorAppHuellero.Services.DTOs;
+using BlazorAppHuellero.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.VisualBasic;
 using MudBlazor;
@@ -8,7 +8,7 @@ using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
-namespace ConsolaBlazor.Services.Http
+namespace BlazorAppHuellero.Services.Http
 {
     public class HttpService: IHttpService
     {

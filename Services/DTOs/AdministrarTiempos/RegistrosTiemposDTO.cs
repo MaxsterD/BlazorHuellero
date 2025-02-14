@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.DTOs.AdministrarTiempos
+﻿namespace BlazorAppHuellero.Services.DTOs.AdministrarTiempos
 {
     public class RegistrosTiemposDTO
     {

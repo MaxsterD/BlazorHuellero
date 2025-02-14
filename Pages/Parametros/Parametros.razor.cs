@@ -1,17 +1,17 @@
-﻿using ConsolaBlazor.Components.Modales;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.DTOs.CreacionUsuario;
-using ConsolaBlazor.Services.DTOs.Horarios;
-using ConsolaBlazor.Services.DTOs;
+﻿using BlazorAppHuellero.Components.Modales;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
+using BlazorAppHuellero.Services.DTOs.Horarios;
+using BlazorAppHuellero.Services.DTOs;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
-using ConsolaBlazor.Services.DTOs.Parametros;
+using BlazorAppHuellero.Services.DTOs.Parametros;
 
-namespace ConsolaBlazor.Pages.Parametros
+namespace BlazorAppHuellero.Pages.Parametros
 {
     public partial class Parametros
     {

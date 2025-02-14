@@ -1,7 +1,7 @@
-﻿using ConsolaBlazor.CustomStyle;
+﻿using BlazorAppHuellero.CustomStyle;
 using Microsoft.AspNetCore.Components;
 
-namespace ConsolaBlazor.Layout
+namespace BlazorAppHuellero.Layout
 {
     public partial class LoginLayout : LayoutComponentBase
     {

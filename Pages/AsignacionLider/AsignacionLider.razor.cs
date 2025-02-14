@@ -1,18 +1,18 @@
-﻿using ConsolaBlazor.Components.Modales;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.DTOs.Horarios;
+﻿using BlazorAppHuellero.Components.Modales;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.DTOs.Horarios;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using ConsolaBlazor.Services.DTOs;
+using BlazorAppHuellero.Services.DTOs;
 using Newtonsoft.Json;
 using System.Text;
-using ConsolaBlazor.Services.DTOs.AsignacionLider;
-using ConsolaBlazor.Pages.Horarios;
+using BlazorAppHuellero.Services.DTOs.AsignacionLider;
+using BlazorAppHuellero.Pages.Horarios;
 using System.Net.Http.Json;
-using ConsolaBlazor.Pages.Login;
+using BlazorAppHuellero.Pages.Login;
 
-namespace ConsolaBlazor.Pages.AsignacionLider
+namespace BlazorAppHuellero.Pages.AsignacionLider
 {
     public partial class AsignacionLider
     {

@@ -1,6 +1,6 @@
-﻿using ConsolaBlazor.Services.DTOs;
+﻿using BlazorAppHuellero.Services.DTOs;
 
-namespace ConsolaBlazor.Services.Interfaces
+namespace BlazorAppHuellero.Services.Interfaces
 {
     public interface IHttpService
     {

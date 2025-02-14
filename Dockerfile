@@ -4,16 +4,16 @@ EXPOSE 8081
 
 WORKDIR /src
 
-COPY ConsolaBlazor.csproj .
-RUN dotnet restore ConsolaBlazor.csproj
+COPY BlazorAppHuellero.csproj .
+RUN dotnet restore BlazorAppHuellero.csproj
 
 
 COPY . .
-RUN dotnet build ConsolaBlazor.csproj -c Release -o /app/build
+RUN dotnet build BlazorAppHuellero.csproj -c Release -o /app/build
 
 
 FROM build AS publish
-RUN dotnet publish ConsolaBlazor.csproj -c Release -o /app/publish
+RUN dotnet publish BlazorAppHuellero.csproj -c Release -o /app/publish
 
 FROM nginx:alpine AS final
 WORKDIR /user/share/nginx/html

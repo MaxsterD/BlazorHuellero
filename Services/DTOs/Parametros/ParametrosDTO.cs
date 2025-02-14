@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.DTOs.Parametros
+﻿namespace BlazorAppHuellero.Services.DTOs.Parametros
 {
     public class ParametrosDTO
     {

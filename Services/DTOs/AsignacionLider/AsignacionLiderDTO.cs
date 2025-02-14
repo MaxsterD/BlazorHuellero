@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.DTOs.AsignacionLider
+﻿namespace BlazorAppHuellero.Services.DTOs.AsignacionLider
 {
     public class AsignacionLiderDTO
     {

@@ -1,15 +1,16 @@
+using BlazorAppHuellero;
 using Blazored.SessionStorage;
-using ConsolaBlazor;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.Http;
-using ConsolaBlazor.Services.Interfaces;
-using ConsolaBlazor.Services.SessionStore;
-using ConsolaBlazor.Services.SessionStore.StoreSession;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.Http;
+using BlazorAppHuellero.Services.Interfaces;
+using BlazorAppHuellero.Services.SessionStore;
+using BlazorAppHuellero.Services.SessionStore.StoreSession;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
+using System.ComponentModel.Design;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -35,7 +36,7 @@ builder.Configuration.AddJsonFile("appsettings.json");
 builder.Services.AddSingleton<AtowerTheme>();
 builder.Services.AddBlazoredSessionStorage();
 
-builder.Services.AddScoped<IHttpService,HttpService>();
+builder.Services.AddScoped<IHttpService, HttpService>();
 builder.Services.AddScoped<ClienteSession>();
 builder.Services.AddScoped<AuthenticationStateProvider, AutenticacionExtension>();
 builder.Services.AddAuthorizationCore();

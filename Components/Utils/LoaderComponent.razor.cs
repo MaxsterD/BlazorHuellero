@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace ConsolaBlazor.Components.Utils
+namespace BlazorAppHuellero.Components.Utils
 {
     public partial class LoaderComponent
     {

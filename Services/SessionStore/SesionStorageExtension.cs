@@ -1,7 +1,7 @@
 ﻿using Blazored.SessionStorage;
 using System.Text.Json;
 
-namespace ConsolaBlazor.Services.SessionStore
+namespace BlazorAppHuellero.Services.SessionStore
 {
     public static class SesionStorageExtension
     {

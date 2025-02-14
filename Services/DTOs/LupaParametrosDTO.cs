@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.DTOs
+﻿namespace BlazorAppHuellero.Services.DTOs
 {
     public class LupaParametrosDTO
     {

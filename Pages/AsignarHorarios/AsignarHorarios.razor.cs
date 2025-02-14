@@ -1,17 +1,17 @@
-﻿using ConsolaBlazor.Components.Modales;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.DTOs.CreacionUsuario;
-using ConsolaBlazor.Services.DTOs;
+﻿using BlazorAppHuellero.Components.Modales;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
+using BlazorAppHuellero.Services.DTOs;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
-using ConsolaBlazor.Services.DTOs.AsignarEmpleados;
-using ConsolaBlazor.Services.DTOs.Horarios;
+using BlazorAppHuellero.Services.DTOs.AsignarEmpleados;
+using BlazorAppHuellero.Services.DTOs.Horarios;
 
-namespace ConsolaBlazor.Pages.AsignarHorarios
+namespace BlazorAppHuellero.Pages.AsignarHorarios
 {
     public partial class AsignarHorarios
     {

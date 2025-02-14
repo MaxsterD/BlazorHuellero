@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.DTOs.AsignarEmpleados
+﻿namespace BlazorAppHuellero.Services.DTOs.AsignarEmpleados
 {
     public class EmpleadosDTO
     {

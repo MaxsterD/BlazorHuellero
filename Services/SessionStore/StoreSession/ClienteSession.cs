@@ -1,6 +1,6 @@
-﻿using ConsolaBlazor.Services.DTOs.Login;
+﻿using BlazorAppHuellero.Services.DTOs.Login;
 
-namespace ConsolaBlazor.Services.SessionStore.StoreSession
+namespace BlazorAppHuellero.Services.SessionStore.StoreSession
 {
     public class ClienteSession
     {

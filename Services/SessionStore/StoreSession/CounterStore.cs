@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.SessionStore.StoreSession
+﻿namespace BlazorAppHuellero.Services.SessionStore.StoreSession
 {
     public class CounterStore
     {

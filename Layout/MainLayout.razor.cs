@@ -1,19 +1,19 @@
-﻿using ConsolaBlazor.Services.SessionStore;
+﻿using BlazorAppHuellero.Services.SessionStore;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
 using static MudBlazor.CategoryTypes;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.DTOs;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.DTOs;
 using Microsoft.Extensions.Options;
 using System.Runtime.CompilerServices;
 using System.Net.Http.Json;
 using System.Net.Http;
 using System.Reflection;
-using ConsolaBlazor.Components.Utils;
+using BlazorAppHuellero.Components.Utils;
 
-namespace ConsolaBlazor.Layout
+namespace BlazorAppHuellero.Layout
 {
     public partial class MainLayout
     {

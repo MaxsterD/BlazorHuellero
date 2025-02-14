@@ -1,19 +1,19 @@
-﻿using ConsolaBlazor.Components.Modales;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.DTOs.AsignarEmpleados;
+﻿using BlazorAppHuellero.Components.Modales;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.DTOs.AsignarEmpleados;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Text.Json;
-using ConsolaBlazor.Services.DTOs.AdministrarTiempos;
-using ConsolaBlazor.Services.DTOs;
+using BlazorAppHuellero.Services.DTOs.AdministrarTiempos;
+using BlazorAppHuellero.Services.DTOs;
 using System.Text;
 using Microsoft.JSInterop;
 using iText.Kernel.Pdf;         // Para PdfWriter y PdfDocument
 using iText.Layout;              // Para Document y Table
 using iText.Layout.Element;      // Para los elementos de la tabla como Table, Cell
 
-namespace ConsolaBlazor.Pages.AdministrarTiempos
+namespace BlazorAppHuellero.Pages.AdministrarTiempos
 {
     public partial class AdministrarTiempos
     {

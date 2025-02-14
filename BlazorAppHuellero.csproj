@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,27 +7,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Configuracion\**" />
-    <Content Remove="Pages\Configuracion\**" />
-    <EmbeddedResource Remove="Pages\Configuracion\**" />
-    <None Remove="Pages\Configuracion\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="nginx.conf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="nginx.conf" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\.dockerignore" Link=".dockerignore">
       <DependentUpon>$(DockerDefaultDockerfile)</DependentUpon>
     </None>
+    <None Include="Components\Modales\BuscarLupa.razor" />
+    <None Include="Components\Modales\ConfirmActionModal.razor" />
+    <None Include="Components\Modales\ConfirmActionModalRegistros.razor" />
+    <None Include="Components\Modales\ModalBorrarEmpleadoLider.razor" />
+    <None Include="Components\Modales\ModalBorrarHorario.razor" />
+    <None Include="Components\Modales\ModalBorrarRegistro.razor" />
+    <None Include="Components\Modales\ModalBorrarUsuario.razor" />
+    <None Include="Components\Utils\BuscarInput.razor" />
+    <None Include="Components\Utils\LoaderComponent.razor" />
     <None Include="Components\Utils\NavMenuAtower.razor" />
     <None Include="Components\Utils\IconoAtowerColor.razor" />
+    <None Include="Layout\MainLayout.razor" />
+    <None Include="Layout\NavMenu.razor" />
+    <None Include="Pages\AdministrarTiempos\AdministrarTiempos.razor" />
+    <None Include="Pages\AsignacionLider\AsignacionLider.razor" />
+    <None Include="Pages\AsignarHorarios\AsignarHorarios.razor" />
+    <None Include="Pages\CreacionUsuario\CreacionUsuario.razor" />
+    <None Include="Pages\Horarios\Horarios.razor" />
+    <None Include="Pages\Login\Login.razor" />
+    <None Include="Pages\Parametros\Parametros.razor" />
+    <None Include="wwwroot\css\bootstrap\bootstrap.min.css.map" />
   </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />

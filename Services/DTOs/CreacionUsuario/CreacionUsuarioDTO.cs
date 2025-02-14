@@ -1,4 +1,4 @@
-﻿namespace ConsolaBlazor.Services.DTOs.CreacionUsuario
+﻿namespace BlazorAppHuellero.Services.DTOs.CreacionUsuario
 {
     public class UsuarioDTO
     {

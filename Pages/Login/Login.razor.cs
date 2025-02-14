@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using ConsolaBlazor.Services.SessionStore;
+using BlazorAppHuellero.Services.SessionStore;
 using System.Net.Http.Json;
 using System.Text.Json;
-using ConsolaBlazor.Services.DTOs.Login;
+using BlazorAppHuellero.Services.DTOs.Login;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace ConsolaBlazor.Pages.Login
+namespace BlazorAppHuellero.Pages.Login
 {
     public partial class Login
     {

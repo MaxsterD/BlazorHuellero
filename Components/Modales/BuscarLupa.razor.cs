@@ -1,6 +1,6 @@
-﻿using ConsolaBlazor.Services.DTOs;
-using ConsolaBlazor.Services.Http;
-using ConsolaBlazor.Services.Interfaces;
+﻿using BlazorAppHuellero.Services.DTOs;
+using BlazorAppHuellero.Services.Http;
+using BlazorAppHuellero.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
@@ -8,7 +8,7 @@ using System.Net.Http.Json;
 using System.Reflection;
 using System.Text.Json;
 
-namespace ConsolaBlazor.Components.Modales
+namespace BlazorAppHuellero.Components.Modales
 {
     public partial class BuscarLupa<T> : ComponentBase
     {

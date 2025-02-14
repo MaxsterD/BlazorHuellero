@@ -1,23 +1,23 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using ConsolaBlazor.Services.SessionStore;
+using BlazorAppHuellero.Services.SessionStore;
 using System.Net.Http.Json;
 using System.Text.Json;
-using ConsolaBlazor.Services.DTOs.Login;
+using BlazorAppHuellero.Services.DTOs.Login;
 using Microsoft.AspNetCore.Components.Web;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.DTOs.Horarios;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.DTOs.Horarios;
 using static MudBlazor.CategoryTypes;
-using ConsolaBlazor.Pages.Login;
+using BlazorAppHuellero.Pages.Login;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using ConsolaBlazor.Components.Modales;
+using BlazorAppHuellero.Components.Modales;
 using Newtonsoft.Json;
 using System.Text;
-using ConsolaBlazor.Services.DTOs.CreacionUsuario;
-using ConsolaBlazor.Services.DTOs;
+using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
+using BlazorAppHuellero.Services.DTOs;
 
-namespace ConsolaBlazor.Pages.Horarios
+namespace BlazorAppHuellero.Pages.Horarios
 {
     public partial class Horarios
     {

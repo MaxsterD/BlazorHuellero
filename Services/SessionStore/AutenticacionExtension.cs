@@ -1,10 +1,10 @@
 ﻿using Blazored.SessionStorage;
-using ConsolaBlazor.Services.DTOs.Login;
-using ConsolaBlazor.Services.SessionStore.StoreSession;
+using BlazorAppHuellero.Services.DTOs.Login;
+using BlazorAppHuellero.Services.SessionStore.StoreSession;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
-namespace ConsolaBlazor.Services.SessionStore
+namespace BlazorAppHuellero.Services.SessionStore
 {
     public class AutenticacionExtension : AuthenticationStateProvider
     {

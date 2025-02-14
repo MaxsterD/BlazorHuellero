@@ -1,20 +1,20 @@
-﻿using ConsolaBlazor.Components.Modales;
-using ConsolaBlazor.CustomStyle;
-using ConsolaBlazor.Services.DTOs.AsignarEmpleados;
-using ConsolaBlazor.Services.DTOs.Horarios;
+﻿using BlazorAppHuellero.Components.Modales;
+using BlazorAppHuellero.CustomStyle;
+using BlazorAppHuellero.Services.DTOs.AsignarEmpleados;
+using BlazorAppHuellero.Services.DTOs.Horarios;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Net.Http.Json;
-using ConsolaBlazor.Services.DTOs.CreacionUsuario;
+using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
 using static MudBlazor.CategoryTypes;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using ConsolaBlazor.Services.DTOs.Login;
+using BlazorAppHuellero.Services.DTOs.Login;
 using System.Text;
-using ConsolaBlazor.Services.DTOs;
+using BlazorAppHuellero.Services.DTOs;
 
-namespace ConsolaBlazor.Pages.CreacionUsuario
+namespace BlazorAppHuellero.Pages.CreacionUsuario
 {
     public partial class CreacionUsuario
     {
