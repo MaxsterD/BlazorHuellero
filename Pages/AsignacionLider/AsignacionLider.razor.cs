@@ -1,16 +1,13 @@
 ﻿using BlazorAppHuellero.Components.Modales;
 using BlazorAppHuellero.CustomStyle;
-using BlazorAppHuellero.Services.DTOs.Horarios;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
 using BlazorAppHuellero.Services.DTOs;
-using Newtonsoft.Json;
-using System.Text;
 using BlazorAppHuellero.Services.DTOs.AsignacionLider;
-using BlazorAppHuellero.Pages.Horarios;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
-using BlazorAppHuellero.Pages.Login;
+using System.Text;
 
 namespace BlazorAppHuellero.Pages.AsignacionLider
 {
@@ -32,7 +29,7 @@ namespace BlazorAppHuellero.Pages.AsignacionLider
 
         private async Task BuscarLideres()
         {
-           
+
             var UrlGet = $"api/Usuarios/BuscarUsuario";
             var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true, BackdropClick = false };
             var parametros = new DialogParameters<BuscarLupa<EmpleadosBuscarDTO>>
@@ -41,9 +38,9 @@ namespace BlazorAppHuellero.Pages.AsignacionLider
                 {x => x.OpcionesType, new CriterioEmpleadoDTO()},
                 {x => x.Titulo, "Buscar Lideres"}
             };
-            var dialog = await DialogService.ShowAsync <BuscarLupa<EmpleadosBuscarDTO>>("", parametros, options);
+            var dialog = await DialogService.ShowAsync<BuscarLupa<EmpleadosBuscarDTO>>("", parametros, options);
             var result = await dialog.Result;
-            
+
 
             if (result != null && !result.Canceled && result.Data != null)
             {
@@ -51,7 +48,7 @@ namespace BlazorAppHuellero.Pages.AsignacionLider
                 Lider.Id = Criterio.Id;
                 Lider.Nombre = Criterio.Nombre;
                 Lider.Identificacion = Criterio.Identificacion.ToString();
-                
+
             }
         }
 
@@ -102,7 +99,8 @@ namespace BlazorAppHuellero.Pages.AsignacionLider
             {
                 Snackbar.Add("Por favor, introduce los datos del Lider.", Severity.Warning, config => { config.HideIcon = true; });
                 return;
-            }else if (Empleado == null)
+            }
+            else if (Empleado == null)
             {
                 Snackbar.Add("Por favor, introduce los datos del Empleado.", Severity.Warning, config => { config.HideIcon = true; });
                 return;
@@ -124,7 +122,7 @@ namespace BlazorAppHuellero.Pages.AsignacionLider
             }
 
 
-            DatosAsignacion = new AsignacionLiderDTO(){ IdLider = Lider.Id, IdEmpleado = Empleado.Id };
+            DatosAsignacion = new AsignacionLiderDTO() { IdLider = Lider.Id, IdEmpleado = Empleado.Id };
 
             var myContent = JsonConvert.SerializeObject(DatosAsignacion);
             var content = new StringContent(myContent, Encoding.UTF8, "application/json");
@@ -178,13 +176,13 @@ namespace BlazorAppHuellero.Pages.AsignacionLider
 
             if (result != null && !result.Canceled && result.Data != null)
             {
-                
+
                 Criterio = result.Data as EmpleadosBuscarDTO;
                 datos.IdLider = Criterio.Id;
                 await FetchUsuariosLider(datos);
 
             }
-            
+
         }
 
         private async Task FetchUsuariosLider(EmpleadosLideresDTO? datos = null)
@@ -196,7 +194,7 @@ namespace BlazorAppHuellero.Pages.AsignacionLider
                 var content = new StringContent(myContent, Encoding.UTF8, "application/json");
                 var baseUrl = Configuration["UrlBackend"];
                 var url = $"{baseUrl}/api/AsignarLideres/ListarEmpleadosLider";
-                var response = await httpClient.PostAsync(url,content);
+                var response = await httpClient.PostAsync(url, content);
                 Console.WriteLine(response.ToString());
                 if (response.IsSuccessStatusCode)
                 {

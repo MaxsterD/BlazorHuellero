@@ -55,7 +55,7 @@
         </MudGrid>
 
         <MudDataGrid HeaderClass="data-grid-header" T="RegistrosTiemposDTO" ReadOnly="false" Items="Registros" Class="mb-0" FilterMode="DataGridFilterMode.Simple"
-                     Dense="true" Striped="true" Bordered="true" Virtualize="false" RowStyleFunc="@_rowStyleFunc" CommittedItemChanges="@ActualizarRegistro"
+                     Dense="true" Striped="true" Bordered="true" Virtualize="false" RowStyleFunc="@_rowStyleFunc" CommittedItemChanges="@ActualizarRegistro" OnItemEditing="CargarDiasSeleccionados"
                      EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual" >
             <Columns>
                 <PropertyColumn Property="x => x.IdUsuario" Hidden="true" Title="Id Usuario" Editable="false" Style="visibility: hidden;"

@@ -1,17 +1,10 @@
-﻿using BlazorAppHuellero.Services.SessionStore;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using BlazorAppHuellero.Components.Utils;
+using BlazorAppHuellero.Services.SessionStore;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
-using static MudBlazor.CategoryTypes;
-using BlazorAppHuellero.CustomStyle;
-using BlazorAppHuellero.Services.DTOs;
-using Microsoft.Extensions.Options;
-using System.Runtime.CompilerServices;
 using System.Net.Http.Json;
-using System.Net.Http;
 using System.Reflection;
-using BlazorAppHuellero.Components.Utils;
 
 namespace BlazorAppHuellero.Layout
 {
@@ -35,7 +28,7 @@ namespace BlazorAppHuellero.Layout
 
         private async Task CerrarSesion()
         {
-            var autenticacionExt = (AutenticacionExtension)autenticacionProvider;                        
+            var autenticacionExt = (AutenticacionExtension)autenticacionProvider;
             await autenticacionExt.ActualizarEstadoAutenticacion(null);
             Navigation.NavigateTo("/");
         }

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿using BlazorAppHuellero.Services.DTOs.Login;
 using BlazorAppHuellero.Services.SessionStore;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Web;
+using MudBlazor;
 using System.Net.Http.Json;
 using System.Text.Json;
-using BlazorAppHuellero.Services.DTOs.Login;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorAppHuellero.Pages.Login
 {
@@ -52,7 +52,7 @@ namespace BlazorAppHuellero.Pages.Login
             {
                 var baseUrl = Configuration["UrlBackend"];
                 var loginResponse = await httpClient.PostAsJsonAsync($"{baseUrl}/api/Login/autenticacion", login);
-                
+
 
                 if (loginResponse.IsSuccessStatusCode)
                 {

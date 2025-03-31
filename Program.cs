@@ -1,16 +1,15 @@
 using BlazorAppHuellero;
-using Blazored.SessionStorage;
 using BlazorAppHuellero.CustomStyle;
 using BlazorAppHuellero.Services.Http;
 using BlazorAppHuellero.Services.Interfaces;
 using BlazorAppHuellero.Services.SessionStore;
 using BlazorAppHuellero.Services.SessionStore.StoreSession;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
-using System.ComponentModel.Design;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

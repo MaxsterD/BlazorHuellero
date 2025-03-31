@@ -1,18 +1,13 @@
 ﻿using BlazorAppHuellero.Components.Modales;
 using BlazorAppHuellero.CustomStyle;
-using BlazorAppHuellero.Services.DTOs.AsignarEmpleados;
-using BlazorAppHuellero.Services.DTOs.Horarios;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using System.Net.Http.Json;
-using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
-using static MudBlazor.CategoryTypes;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
-using BlazorAppHuellero.Services.DTOs.Login;
-using System.Text;
 using BlazorAppHuellero.Services.DTOs;
+using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using MudBlazor;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
+using System.Text;
 
 namespace BlazorAppHuellero.Pages.CreacionUsuario
 {
@@ -75,16 +70,16 @@ namespace BlazorAppHuellero.Pages.CreacionUsuario
                 }
                 else
                 {
-                    
+
                     Snackbar.Add(responseB.Message, Severity.Error);
 
-                    
+
                 }
-                
 
-                
 
-                
+
+
+
 
             }
             else
@@ -145,7 +140,7 @@ namespace BlazorAppHuellero.Pages.CreacionUsuario
                 Snackbar.Add("Hubo un error al actualizar el usuario!", Severity.Error);
 
             }
-           
+
 
         }
 

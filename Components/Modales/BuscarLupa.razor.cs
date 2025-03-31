@@ -1,12 +1,8 @@
-﻿using BlazorAppHuellero.Services.DTOs;
-using BlazorAppHuellero.Services.Http;
-using BlazorAppHuellero.Services.Interfaces;
+﻿using BlazorAppHuellero.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
-using System.Net.Http.Json;
 using System.Reflection;
-using System.Text.Json;
 
 namespace BlazorAppHuellero.Components.Modales
 {
@@ -17,7 +13,7 @@ namespace BlazorAppHuellero.Components.Modales
         [Inject] private IConfiguration Configuration { get; set; }
         [Inject] private IHttpService httpGet { get; set; }
 
-        [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+        [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
         [Parameter] public string Url { get; set; } = "";
         [Parameter] public string Titulo { get; set; } = "Buscar Lupa";
         [Parameter] public object? OpcionesType { get; set; } = null;
@@ -34,7 +30,7 @@ namespace BlazorAppHuellero.Components.Modales
 
         protected override async Task OnInitializedAsync()
         {
-            if(OpcionesType != null)
+            if (OpcionesType != null)
             {
                 OpcionesBusqueda = GetColumnasTabla<T>(OpcionesType);
                 SelectedParametro = OpcionesBusqueda[0];

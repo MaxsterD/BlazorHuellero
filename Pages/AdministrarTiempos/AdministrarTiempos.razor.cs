@@ -1,17 +1,14 @@
 ﻿using BlazorAppHuellero.Components.Modales;
 using BlazorAppHuellero.CustomStyle;
-using BlazorAppHuellero.Services.DTOs.AsignarEmpleados;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using System.Text.Json;
-using BlazorAppHuellero.Services.DTOs.AdministrarTiempos;
 using BlazorAppHuellero.Services.DTOs;
-using System.Text;
+using BlazorAppHuellero.Services.DTOs.AdministrarTiempos;
+using BlazorAppHuellero.Services.DTOs.AsignarEmpleados;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.JSInterop;
-using iText.Kernel.Pdf;         // Para PdfWriter y PdfDocument
-using iText.Layout;              // Para Document y Table
-using iText.Layout.Element;      // Para los elementos de la tabla como Table, Cell
+using MudBlazor;
+using System.Text;
+using System.Text.Json;
 
 namespace BlazorAppHuellero.Pages.AdministrarTiempos
 {
@@ -84,7 +81,7 @@ namespace BlazorAppHuellero.Pages.AdministrarTiempos
         private async Task ActualizarRegistro(RegistrosTiemposDTO item)
         {
 
-            if((item.HoraEntrada == null || item.HoraEntrada == "") && (item.HoraSalida == null || item.HoraSalida == ""))
+            if ((item.HoraEntrada == null || item.HoraEntrada == "") && (item.HoraSalida == null || item.HoraSalida == ""))
             {
                 Snackbar.Add("Ambos registros no pueden estar vacios", Severity.Error);
                 await Buscar(null);
@@ -127,7 +124,7 @@ namespace BlazorAppHuellero.Pages.AdministrarTiempos
                 Console.WriteLine(response.ToString());
             }
 
-            
+
         }
 
         private async Task Buscar(DateTime? fecha)
@@ -135,8 +132,8 @@ namespace BlazorAppHuellero.Pages.AdministrarTiempos
 
             try
             {
-                var fechaInicio="";
-                var fechaFin="";
+                var fechaInicio = "";
+                var fechaFin = "";
                 if (fecha.HasValue) // Verifica si 'fecha' tiene un valor
                 {
                     fechaInicio = fecha.Value.ToString("yyyy-MM-dd"); // Usa .Value para acceder al DateTime subyacente
@@ -144,11 +141,11 @@ namespace BlazorAppHuellero.Pages.AdministrarTiempos
                 }
                 else
                 {
-                     fechaInicio = _dateRange?.Start.Value.ToString("yyyy-MM-dd");
-                     fechaFin = _dateRange?.End.Value.ToString("yyyy-MM-dd");
+                    fechaInicio = _dateRange?.Start.Value.ToString("yyyy-MM-dd");
+                    fechaFin = _dateRange?.End.Value.ToString("yyyy-MM-dd");
                 }
                 isLoading = true;
-                
+
                 var baseUrl = Configuration["UrlBackend"];
                 var url = $"{baseUrl}/api/Huellero/RecibirDatos";
 
@@ -192,7 +189,7 @@ namespace BlazorAppHuellero.Pages.AdministrarTiempos
             try
             {
                 isLoading = true;
-                var fechaInicio =_dateRange?.Start.Value;
+                var fechaInicio = _dateRange?.Start.Value;
                 var fechaFin = _dateRange?.End.Value;
                 var baseUrl = Configuration["UrlBackend"];
                 var url = $"{baseUrl}/api/Huellero/RecibirDatos";
@@ -279,7 +276,7 @@ namespace BlazorAppHuellero.Pages.AdministrarTiempos
                     isLoading = false;
                     return;
                 }
-                
+
 
             }
             catch (Exception ex)
@@ -294,7 +291,7 @@ namespace BlazorAppHuellero.Pages.AdministrarTiempos
             if (x.EstadoEntrada == null || x.EstadoEntrada == "Tarde")
                 return "background-color:#ff8b8b8f";
 
-            if(x.EstadoSalida == null || x.EstadoEntrada == "Tarde")
+            if (x.EstadoSalida == null || x.EstadoEntrada == "Tarde")
                 return "background-color:#ff8b8b8f";
 
             return "";

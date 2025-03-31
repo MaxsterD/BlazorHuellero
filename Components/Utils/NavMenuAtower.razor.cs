@@ -31,7 +31,7 @@ namespace BlazorAppHuellero.Components.Utils
                 Value = new LinkItemDTO { Path = "administrarTiempos", Name = "Administracion de tiempos" }
 
             });
-            
+
             //Agregar aquí nuevos TreeItems siguiendo el ejemplo de arriba 
         }
 
@@ -49,7 +49,7 @@ namespace BlazorAppHuellero.Components.Utils
             new LinkItemDTO { Path = "crearUsuario", Name = "Crear Usuarios" },
             new LinkItemDTO { Path = "asignacionLider", Name = "Asignar Usuarios" },
             new LinkItemDTO { Path = "asignacionHorarios", Name = "Asignar Horarios" },
-            
+
 
         };
 

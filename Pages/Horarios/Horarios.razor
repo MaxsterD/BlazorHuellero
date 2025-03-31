@@ -1,4 +1,5 @@
 ﻿@page "/horarios"
+@using Newtonsoft.Json;
 @using BlazorAppHuellero.Services.DTOs.Login
 @using BlazorAppHuellero.Services.DTOs.Horarios
 @attribute [Authorize]
@@ -23,10 +24,11 @@
         </MudContainer>
 
         <MudGrid Spacing="1" Class="mt-3 px-1">
-            <MudItem Class="mx-0 ml-4" xs="3">
+
+            <MudItem Class="mx-0 ml-4" xs="12" sm="3">
                 <MudText Style="color:#336699;">Descripcion</MudText>
             </MudItem>
-            <MudItem Class="mx-0" xs="6">
+            <MudItem Class="mx-0" xs="12" sm="6">
                 <MudTextField ShrinkLabel @bind-Value="horario.Descripcion"
                               InputType="InputType.Text"
                               Required="true"
@@ -36,7 +38,25 @@
                               Style="height:20px">
                 </MudTextField>
             </MudItem>
-            <MudItem Class="mx-0 ml-4" xs="3">
+
+            <MudItem Class="mx-0 ml-4" xs="12" sm="3">
+                <MudText Style="color:#336699;">Concepto</MudText>
+            </MudItem>
+            <MudItem Class="mx-0" xs="12" sm="5">
+                <MudTextField ShrinkLabel @bind-Value="Concepto.Descripcion"
+                              InputType="InputType.Text"
+                              Required="true"
+                              RequiredError="El Concepto es requerido"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              Style="height:20px">
+                </MudTextField>
+            </MudItem>
+            <MudItem Class="mx-1" xs="12" sm="3">
+                <MudIcon Icon="@Icons.Material.Filled.Search" @onclick="BuscarConceptos" Title="Buscar" Class="cursor-pointer" />
+            </MudItem>
+
+            <MudItem Class="mx-0 ml-4" xs="12" sm="3">
                 <MudText Style="color:#336699;">Hora Inicio</MudText>
             </MudItem>
             <MudItem Class="mx-0" xs="6">
@@ -47,7 +67,8 @@
                                Variant="Variant.Outlined"
                                Underline="false"/>
             </MudItem>
-            <MudItem Class="mx-0 ml-4" xs="3">
+
+            <MudItem Class="mx-0 ml-4" xs="12" sm="3">
                 <MudText Style="color:#336699;">Hora Fin</MudText>
             </MudItem>
             <MudItem Class="mx-0" xs="6">
@@ -58,33 +79,104 @@
                                Margin="Margin.Dense"
                                Underline="false"/>
             </MudItem>
+            
+            
+            <MudGrid>
+                <MudItem style="">
+                    
+                </MudItem>
+                <MudItem Class="mx-0 my-1" xs="2">
+                    <MudCheckBox T="bool" Value="@DiasSeleccionados[2]" ValueChanged="@(v => OnDayChanged(2, v))" LabelPlacement="@Placement" Label="Lunes" Style="@colorStyle"></MudCheckBox>
+                </MudItem>
+                <MudItem Class="mx-0 my-1" xs="1">
+                    <MudCheckBox T="bool" Value="@DiasSeleccionados[3]" ValueChanged="@(v => OnDayChanged(3, v))" LabelPlacement="@Placement" Label="Martes" Style="@colorStyle"></MudCheckBox>
+                </MudItem>
+                <MudItem Class="mx-0 my-1" xs="2">
+                    <MudCheckBox T="bool" Value="@DiasSeleccionados[4]" ValueChanged="@(v => OnDayChanged(4, v))" LabelPlacement="@Placement" Label="Miercoles" Style="@colorStyle"></MudCheckBox>
+                </MudItem>
+                <MudItem Class="mx-0 my-1" xs="1">
+                    <MudCheckBox T="bool" Value="@DiasSeleccionados[5]" ValueChanged="@(v => OnDayChanged(5, v))" LabelPlacement="@Placement" Label="Jueves" Style="@colorStyle"></MudCheckBox>
+                </MudItem>
+                <MudItem Class="mx-0 my-1" xs="2">
+                    <MudCheckBox T="bool" Value="@DiasSeleccionados[6]" ValueChanged="@(v => OnDayChanged(6, v))" LabelPlacement="@Placement" Label="Viernes" Style="@colorStyle"></MudCheckBox>
+                </MudItem>
+                <MudItem Class="mx-0 my-1" xs="1">
+                    <MudCheckBox T="bool" Value="@DiasSeleccionados[7]" ValueChanged="@(v => OnDayChanged(7, v))" LabelPlacement="@Placement" Label="Sabado" Style="@colorStyle"></MudCheckBox>
+                </MudItem>
+                <MudItem Class="mx-0 my-1" xs="2">
+                    <MudCheckBox T="bool" Value="@DiasSeleccionados[1]" ValueChanged="@(v => OnDayChanged(1, v))" LabelPlacement="@Placement" Label="Domingo" Style="@colorStyle"></MudCheckBox>
+                </MudItem>
+            </MudGrid>
+            <MudItem xs="12" md="2" Style="width:100%"></MudItem>
+            
+
         </MudGrid>
         
-        <MudDataGrid HeaderClass="data-grid-header" T="HorariosDTO" ReadOnly="false" Items="ListaHorarios" Class="mb-0" FilterMode="DataGridFilterMode.Simple"
+        <MudDataGrid HeaderClass="data-grid-header" T="HorariosDTO" ReadOnly="false" Items="ListaHorarios" StartedEditingItem="@CargarDiasSeleccionados" Class="mb-0" FilterMode="DataGridFilterMode.Simple"
                      Dense="true" Striped="true" Bordered="true" Virtualize="true" CommittedItemChanges="@ActualizarHorario"
                      EditMode="DataGridEditMode.Form" EditTrigger="DataGridEditTrigger.Manual">
             <Columns>
                 <PropertyColumn Property="x => x.Id" Hidden="true" Title="Id" Editable="false"
                                 HeaderClass="header-grid"
-                                CellClass="data-grid-cell" />
+                                CellClass="data-grid-cell">
+                    <EditTemplate>
+                    </EditTemplate>
+                </PropertyColumn>
+                <PropertyColumn Property="x => x.IdConcepto" Hidden="true" Title="Id Salida" Editable="false" Style="visibility: hidden;"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell">
+                    <EditTemplate>
+                    </EditTemplate>
+                </PropertyColumn>
 
                 <PropertyColumn Property="x => x.Descripcion" Title="Descripcion" Filterable="true"
                                 HeaderClass="header-grid"
                                 CellClass="data-grid-cell" 
                                 HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" 
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;">
+                </PropertyColumn>
+
+                <PropertyColumn Property="x => x.CodigoConcepto" Title="Codigo Concepto" Filterable="true" Editable="false"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
                                 CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
 
                 <PropertyColumn Property="x => x.HoraInicio" Title="Hora Inicio"
                                 HeaderClass="header-grid"
                                 CellClass="data-grid-cell" Style="max-width:150px !important" 
                                 HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
-                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;">
+                </PropertyColumn>
 
                 <PropertyColumn Property="x => x.HoraFin" Title="Hora Fin"
                                 HeaderClass="header-grid"
                                 CellClass="data-grid-cell" Style="max-width:150px !important" 
                                 HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
-                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" />
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;" >
+                </PropertyColumn>
+                <PropertyColumn Property="x => x.DiasLaborales" Hidden="true" Title="Dias Laborales" Editable="true"
+                                HeaderClass="header-grid"
+                                CellClass="data-grid-cell" Style="max-width:150px !important"
+                                HeaderStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;"
+                                CellStyle="max-width:100px !important;word-wrap: break-word !important;white-space: normal !important;">
+                    <EditTemplate>
+                        <MudGrid>
+                            @foreach (var (dia, index) in Enumerable.Range(1, 7).Select((d, i) => (d, i))) // 1 = Domingo, 7 = Sábado
+                            {
+                                // Asegurar que la lista no sea null antes de acceder
+                                
+
+                                var xsSize = (index % 2 == 0) ? 2 : 1; // Alternar entre 2 y 1
+
+                                <MudItem Class="mx-0 my-1" xs="@xsSize">
+                                    <MudCheckBox T="bool" Value="@DiasSeleccionadosEdit[dia]" LabelPlacement="Placement.Bottom" Label="@GetDayLabel(dia)"
+                                                 ValueChanged="@(v => OnDayChangedEdit(context.Item, dia, v))" />
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </EditTemplate>
+                </PropertyColumn>
 
                 <TemplateColumn Hidden="false"
                                 HeaderClass="header-grid"

@@ -1,15 +1,12 @@
-﻿using BlazorAppHuellero.Components.Modales;
-using BlazorAppHuellero.CustomStyle;
-using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
-using BlazorAppHuellero.Services.DTOs.Horarios;
+﻿using BlazorAppHuellero.CustomStyle;
 using BlazorAppHuellero.Services.DTOs;
-using Microsoft.AspNetCore.Components.Authorization;
+using BlazorAppHuellero.Services.DTOs.Parametros;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using System.Net.Http.Json;
-using System.Text.Json;
 using System.Text;
-using BlazorAppHuellero.Services.DTOs.Parametros;
+using System.Text.Json;
 
 namespace BlazorAppHuellero.Pages.Parametros
 {
@@ -46,7 +43,7 @@ namespace BlazorAppHuellero.Pages.Parametros
 
                 if (response.IsSuccessStatusCode)
                 {
-                    
+
                     Snackbar.Add(apiResponse.Message, Severity.Success, config => { config.HideIcon = true; });
                     await FetchParametros();
                 }
@@ -61,8 +58,8 @@ namespace BlazorAppHuellero.Pages.Parametros
                 Console.WriteLine(ex.Message);
                 Snackbar.Add("Hubo un error al traer los usuarios", Severity.Error, config => { config.HideIcon = true; });
             }
-            
-           
+
+
         }
 
         private async Task FetchParametros()

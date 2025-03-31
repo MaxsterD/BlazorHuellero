@@ -12,7 +12,7 @@
         public string? Fecha { get; set; }
         public string? EstadoEntrada { get; set; }
         public string? EstadoSalida { get; set; }
-             
+
     }
 
     public class RegistroDTO

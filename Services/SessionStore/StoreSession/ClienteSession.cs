@@ -4,7 +4,7 @@ namespace BlazorAppHuellero.Services.SessionStore.StoreSession
 {
     public class ClienteSession
     {
-        public SesionDTO UserSession {  get; private set; }
+        public SesionDTO UserSession { get; private set; }
 
         public void SetuserSession(SesionDTO session)
         {

@@ -1,15 +1,14 @@
 ﻿using BlazorAppHuellero.Components.Modales;
 using BlazorAppHuellero.CustomStyle;
-using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
 using BlazorAppHuellero.Services.DTOs;
-using Microsoft.AspNetCore.Components.Authorization;
+using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
+using BlazorAppHuellero.Services.DTOs.Horarios;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
-using BlazorAppHuellero.Services.DTOs.AsignarEmpleados;
-using BlazorAppHuellero.Services.DTOs.Horarios;
 
 namespace BlazorAppHuellero.Pages.AsignarHorarios
 {
@@ -101,7 +100,7 @@ namespace BlazorAppHuellero.Pages.AsignarHorarios
             if (result != null && !result.Canceled && result.Data != null)
             {
                 Console.WriteLine("Busqueda Usuario");
-                
+
                 CriterioUsuario = result.Data as UsuarioDTO;
                 Usuario.Id = CriterioUsuario.Id;
                 Usuario.Nombre = CriterioUsuario.Nombre;

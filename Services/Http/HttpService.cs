@@ -1,16 +1,12 @@
 ﻿using BlazorAppHuellero.Services.DTOs;
 using BlazorAppHuellero.Services.Interfaces;
-using Microsoft.AspNetCore.Components;
-using Microsoft.VisualBasic;
 using MudBlazor;
-using System;
 using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace BlazorAppHuellero.Services.Http
 {
-    public class HttpService: IHttpService
+    public class HttpService : IHttpService
     {
         private readonly HttpClient _httpClient;
         private readonly ISnackbar _snackbar;
