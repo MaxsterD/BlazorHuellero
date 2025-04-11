@@ -3,6 +3,7 @@ using BlazorAppHuellero.CustomStyle;
 using BlazorAppHuellero.Services.DTOs;
 using BlazorAppHuellero.Services.DTOs.CreacionUsuario;
 using BlazorAppHuellero.Services.DTOs.Horarios;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using MudBlazor;
@@ -204,7 +205,13 @@ namespace BlazorAppHuellero.Pages.Horarios
 
         private async Task ActualizarHorario(HorariosDTO item)
         {
-
+            var modal = context;
+            if (item.DiasLaborales?.Any() != true)
+            {
+                Console.WriteLine("Debe seleccionar al menos un día laboral.");
+                Snackbar.Add("Debe seleccionar al menos un día laboral.", Severity.Warning);
+                return;
+            }
             var myContent = JsonConvert.SerializeObject(item);
             var content = new StringContent(myContent, Encoding.UTF8, "application/json");
             var baseUrl = Configuration["UrlBackend"];
